@@ -10,25 +10,29 @@ import {
 	SafeAreaView,
 	Image,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import NationalPark from './Components/NationalPark';
 import mountain from './Images/mountain.jpg';
-import listOfParks from './Parks';
+import NationalPark from './Components/NationalPark';
+import listOfParks from './AllNationalParks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Shrikhand_400Regular } from '@expo-google-fonts/shrikhand';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
-const image = mountain;
+// background image
+const background = mountain;
+// async storage key
 const NATIONAL_PARKS_KEY = 'MY_NATIONAL_PARKS';
 
 export default function App() {
+	// all national parks array
 	const [parkItems, setParkItems] = useState([]);
-	const [park, setPark] = useState();
 
+	// state names font
 	let [fontsLoaded, error] = useFonts({
 		Shrikhand_400Regular,
 	});
 
+	// save any changes to individual national park items
 	const saveParkItemsToStorage = async (newParkItems) => {
 		try {
 			await AsyncStorage.setItem(
@@ -42,6 +46,7 @@ export default function App() {
 		}
 	};
 
+	// saves updated/checked national park item
 	const saveItem = async () => {
 		try {
 			await AsyncStorage.setItem(
@@ -56,19 +61,15 @@ export default function App() {
 		}
 	};
 
+	// loads all national park items & changes from local storage
 	const load = async () => {
 		try {
 			let parks = await AsyncStorage.getItem(NATIONAL_PARKS_KEY);
 
 			if (parks) {
-				// this vs (parks != null) false if parks is both null OR undefined
 				let parksUnstringified = JSON.parse(parks);
 				setParkItems(parksUnstringified);
 			} else {
-				// First time opening the app, need to setup everything
-
-				const newParkItems = {};
-
 				for (const parkName of listOfParks) {
 					newParkItems[parkName] = { hasVisited: false };
 				}
@@ -84,25 +85,17 @@ export default function App() {
 		load();
 	}, []);
 
+	// needed to make fonts work on react native
 	if (!fontsLoaded) {
 		return <AppLoading />;
 	}
 
-	const handleAddPark = () => {
-		Keyboard.dismiss();
-		setParkItems((parkItems) => ({
-			...parkItems,
-			[park]: { hasVisited: false },
-		}));
-		setPark(null);
-	};
-
+	// handles the checkbox on each national park item
 	const togglePark = (parkName) => {
 		const newParkItems = {
 			...parkItems,
 			[parkName]: { hasVisited: !parkItems[parkName]?.hasVisited },
 		};
-
 		// save  to state
 		setParkItems(newParkItems);
 
@@ -111,7 +104,10 @@ export default function App() {
 	};
 
 	return (
-		<ImageBackground source={image} resizeMode='cover' style={styles.container}>
+		<ImageBackground
+			source={background}
+			resizeMode='cover'
+			style={styles.container}>
 			<SafeAreaView>
 				<ScrollView
 					showsVerticalScrollIndicator={false}
@@ -119,7 +115,7 @@ export default function App() {
 					<Image source={require('./Images/Logo.png')} style={styles.logo} />
 					<View style={styles.tasksWrapper}>
 						<View style={styles.items}>
-							{Object.keys(listOfParks).map((stateName, index) => {
+							{Object.keys(listOfParks).map((stateName) => {
 								const currentParks = listOfParks[stateName];
 								return [
 									<Text style={styles.stateName}>{stateName}</Text>,
