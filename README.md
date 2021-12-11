@@ -3,7 +3,7 @@ This simple app was designed for my friend, Becky, as a gift to aid her on her j
 
 # Expo project link
 
-# Instructions on how to use expo on your personal mobile device
+# How to use expo on your personal mobile device
 1. Download Expo Go from the apple app store or android app store
 2. Scan the QR code on the site
 3. Enjoy the app!
