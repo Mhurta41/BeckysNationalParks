@@ -1,5 +1,5 @@
 # Becky's U.S National Parks Adventures app description
-This simple app was designed for my friend, Becky, as a gift to aid her on her journey of visiting all of the U.S' National Parks. The app contains a clean UI with the national parks organized alphabetically by state. The user can check off each National Park they visit and the use of async local storage allows the app to save their progress.
+This simple app was designed for my friend, Becky, as a gift to aid her on her journey of visiting all of the U.S National Parks. The app contains a clean UI with the national parks organized alphabetically by state. The user can check off each National Park they visit and the use of async local storage allows the app to save their progress.
 
 # Expo project link
 
